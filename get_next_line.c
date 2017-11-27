@@ -6,7 +6,7 @@
 /*   By: bmuselet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 14:12:19 by bmuselet          #+#    #+#             */
-/*   Updated: 2017/11/27 13:52:38 by bmuselet         ###   ########.fr       */
+/*   Updated: 2017/11/27 13:58:18 by bmuselet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int			get_next_line(int const fd, char **line)
 	int			ret;
 	int			i;
 
-	if (line == NULL || fd < 0 || fd > 2147483647 || (read(fd, str[fd], 0) < 0) \
+	if (line == NULL || fd < 0 || \
+			fd > 2147483647 || (read(fd, str[fd], 0) < 0) \
 			|| !(buff = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)))
 		return (-1);
 	if (str[fd] && ft_end_line(&str[fd], line))
