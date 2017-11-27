@@ -6,13 +6,12 @@
 /*   By: bmuselet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 14:12:19 by bmuselet          #+#    #+#             */
-/*   Updated: 2017/11/27 16:20:21 by bmuselet         ###   ########.fr       */
+/*   Updated: 2017/11/27 16:23:41 by bmuselet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "get_next_line.h"
-#include <stdio.h>
 
 static int	ft_end_line(char **str, char **line)
 {
