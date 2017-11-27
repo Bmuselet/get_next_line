@@ -6,12 +6,13 @@
 /*   By: bmuselet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 14:12:19 by bmuselet          #+#    #+#             */
-/*   Updated: 2017/11/27 14:20:55 by bmuselet         ###   ########.fr       */
+/*   Updated: 2017/11/27 15:49:55 by bmuselet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "get_next_line.h"
+#include <stdio.h>
 
 static int	ft_end_line(char **str, char **line)
 {
@@ -22,8 +23,11 @@ static int	ft_end_line(char **str, char **line)
 	i = 0;
 	endl = *str;
 	while (endl[i] != '\n')
-		if (!endl[i++])
+	{
+		if (endl[i] == '\0')
 			return (0);
+		i++;
+	}
 	tmp = &endl[i];
 	*tmp = '\0';
 	*line = ft_strdup(*str);
@@ -51,7 +55,7 @@ static int	ft_read_file(int fd, char *buff, char **str, char **line)
 		if (ft_end_line(str, line) == 1)
 			return (1);
 	}
-	return (ret);
+	return (0);
 }
 
 int			get_next_line(int const fd, char **line)
@@ -72,11 +76,7 @@ int			get_next_line(int const fd, char **line)
 	ret = ft_read_file(fd, buff, &str[fd], line);
 	free(buff);
 	if (ret != 0 || str[fd] == NULL || str[fd][0] == '\0')
-	{
-		if (!ret && *line)
-			*line = NULL;
 		return (ret);
-	}
 	*line = str[fd];
 	str[fd] = NULL;
 	free(str[fd]);
