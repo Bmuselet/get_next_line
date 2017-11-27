@@ -6,37 +6,77 @@
 /*   By: bmuselet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 14:12:19 by bmuselet          #+#    #+#             */
-/*   Updated: 2017/11/24 15:01:56 by bmuselet         ###   ########.fr       */
+/*   Updated: 2017/11/27 13:43:49 by bmuselet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "libft/libft.h"
+#include "get_next_line.h"
 
-int	get_next_line(const int fd, char **line)
+static int	ft_end_line(char **str, char **line)
 {
-	static char	*str;
-	int			i;
-	char		buff[BUFF_SIZE + 1];
-	int			ret;
+	char	*tmp;
+	char	*endl;
+	int		i;
 
-	if (!str && (str = (char *)ft_memalloc(sizeof(char))) == NULL)
-		return (-1);
-	while ((ret = read(fd, buff, BUFF_SIZE)) != 0)
-	{
-		if (ret < 0 || fd < 0 || line == NULL)
-			return (-1);
-		buff[ret] = '\0';
-		str = ft_strjoin(str, buff);
-	}
 	i = 0;
-	if (str[i])
+	endl = *str;
+	while (endl[i] != '\n')
+		if (!endl[i++])
+			return (0);
+	tmp = &endl[i];
+	*tmp = '\0';
+	*line = ft_strdup(*str);
+	*str = ft_strdup(tmp + 1);
+	return (1);
+}
+
+static int	ft_read_file(int fd, char *buff, char **str, char **line)
+{
+	int		ret;
+	char	*tmp;
+
+	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		while (str[i] != '\n' && str[i])
-			i++;
-		*line = ft_strsub(str, 0, i);
-		str = &str[i + 1];
-		return (1);
+		buff[ret] = '\0';
+		if (*str)
+		{
+			tmp = *str;
+			*str = ft_strjoin(tmp, buff);
+			free(tmp);
+			tmp = NULL;
+		}
+		else
+			*str = ft_strdup(buff);
+		if (ft_end_line(str, line) == 1)
+			return (1);
 	}
-	return (0);
+	return (ret);
+}
+
+int			get_next_line(int const fd, char **line)
+{
+	static char	*str[2147483647];
+	char		*buff;
+	int			ret;
+	int			i;
+
+	if (line == NULL || fd < 0 || (read(fd, str[fd], 0) < 0) \
+			|| !(buff = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)))
+		return (-1);
+	if (str[fd] && ft_end_line(&str[fd], line))
+		return (1);
+	i = 0;
+	ft_bzero(buff, BUFF_SIZE + 1);
+	ret = ft_read_file(fd, buff, &str[fd], line);
+	free(buff);
+	if (ret != 0 || str[fd] == NULL || str[fd][0] == '\0')
+	{
+		if (!ret && *line)
+			*line = NULL;
+		return (ret);
+	}
+	*line = str[fd];
+	str[fd] = NULL;
+	return (1);
 }
