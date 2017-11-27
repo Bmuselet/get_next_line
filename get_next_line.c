@@ -6,7 +6,7 @@
 /*   By: bmuselet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 14:12:19 by bmuselet          #+#    #+#             */
-/*   Updated: 2017/11/27 15:49:55 by bmuselet         ###   ########.fr       */
+/*   Updated: 2017/11/27 16:20:21 by bmuselet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	ft_end_line(char **str, char **line)
 	*tmp = '\0';
 	*line = ft_strdup(*str);
 	*str = ft_strdup(tmp + 1);
+	free(endl);
 	return (1);
 }
 
