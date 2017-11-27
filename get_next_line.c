@@ -6,7 +6,7 @@
 /*   By: bmuselet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 14:12:19 by bmuselet          #+#    #+#             */
-/*   Updated: 2017/11/27 13:58:18 by bmuselet         ###   ########.fr       */
+/*   Updated: 2017/11/27 14:20:55 by bmuselet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ int			get_next_line(int const fd, char **line)
 	}
 	*line = str[fd];
 	str[fd] = NULL;
+	free(str[fd]);
 	return (1);
 }
